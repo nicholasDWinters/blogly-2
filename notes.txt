@@ -1,0 +1,2 @@
+project directions - http://curric.rithmschool.com/springboard/exercises/flask-blogly/
+
