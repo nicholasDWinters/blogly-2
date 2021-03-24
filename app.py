@@ -61,6 +61,7 @@ def edit_user(user_id):
     if user.image_url:
         user.image_url = user.image_url 
     else:
+        # image taken from unsplash.com
         user.image_url = 'https://images.unsplash.com/photo-1503164412421-0512323df4e7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
     
 
