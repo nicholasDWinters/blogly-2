@@ -66,6 +66,20 @@ class UserViewsTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
             self.assertIn('<li><a href="/users/2">John Winters</a></li>', html)
 
+    def test_edit_user(self):
+        with app.test_client() as client:
+            # image taken from unsplash.com
+            data = {"first_name": "John", 'last_name': 'Winters', 'image_url':'https://images.unsplash.com/photo-1616171812687-1028c744649d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'}
+
+            resp = client.post(f'/users/{self.user_id}/edit', data=data, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+            
+            self.assertIn('<li><a href="/users/1">John Winters</a></li>', html)
+            self.assertNotIn('<li><a href="/users/1">Nick Winters</a></li>', html)
+            
+            
+
     def test_delete_user(self):
            with app.test_client() as client:
             # image url taken from unsplash.com
@@ -75,3 +89,5 @@ class UserViewsTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
             self.assertNotIn(f"<li><a href='/users/{self.user_id}'>John Winters</a></li>", html)
             self.assertEqual(User.query.filter_by(id = self.user_id).one_or_none(), None)
+
+    
