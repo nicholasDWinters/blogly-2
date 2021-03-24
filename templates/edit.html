@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+
+{%block title%} Edit User {% endblock %}
+
+{%block content%}
+<h2 class="mt-5">Edit User</h2>
+<div class="row mt-5">
+    <div class="col-6 d-grid gap-2">
+
+        <form class="d-grid gap-2" action="/users/{{user.id}}/edit" method="post">
+            <div class="mb-3">
+                <label class="form-label" for="first_name">First Name</label>
+                <input class="form-control" type="text" name="first_name" id="first_name" value="{{user.first_name}}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="last_name">Last Name</label>
+                <input class="form-control" type="text" name="last_name" id="last_name" value="{{user.last_name}}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image_url">Image Url</label>
+                <input class="form-control" type="text" name="image_url" id="image_url" value="{{user.image_url}}">
+            </div>
+
+            <button class="btn btn-success" type="submit">Save Edits</button>
+        </form>
+        <a href="/users" class="btn btn-primary mt-4">Back to Users</a>
+    </div>
+</div>
+
+
+{% endblock %}

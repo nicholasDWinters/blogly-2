@@ -5,9 +5,9 @@
 {%block content%}
 <h2 class="mt-5">Create a User</h2>
 <div class="row mt-5">
-    <div class="col-6">
+    <div class="col-6 d-grid gap-2">
 
-        <form action="/create" method="post">
+        <form class="d-grid gap-2" action="/users/new" method="post">
             <div class="mb-3">
                 <label class="form-label" for="first_name">First Name</label>
                 <input class="form-control" type="text" name="first_name" id="first_name"
@@ -23,8 +23,9 @@
                     placeholder="Provide an image of the user">
             </div>
 
-            <button class="btn btn-primary" type="submit">Create</button>
+            <button class="btn btn-success" type="submit">Create</button>
         </form>
+        <a href="/users" class="btn btn-primary mt-3">Back to Users</a>
     </div>
 </div>
 
