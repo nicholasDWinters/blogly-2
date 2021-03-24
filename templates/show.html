@@ -8,8 +8,8 @@
         <img class="userImage mt-5" src="{{user.image_url}}" alt="user image">
     </div>
     <div class="col-4 d-grid gap-2">
-        <h2 class="mt-5">{{user.first_name}} {{user.last_name}}</h2>
-        <a class="btn btn-info mt-2" href="/users/{{user.id}}/edit">Edit</a>
+        <h2 class="mt-5">{{user.full_name()}}</h2>
+        <a class="btn btn-secondary mt-2" href="/users/{{user.id}}/edit">Edit</a>
         <form class="d-grid gap-2" action="/users/{{user.id}}/delete" method="POST">
             <button class="btn btn-danger mt-2">Delete</button>
         </form>

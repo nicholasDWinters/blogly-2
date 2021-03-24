@@ -3,7 +3,7 @@
 {%block title%} Edit User {% endblock %}
 
 {%block content%}
-<h2 class="mt-5">Edit User</h2>
+<h2 class="mt-5">Edit {{user.full_name()}}</h2>
 <div class="row mt-5">
     <div class="col-6 d-grid gap-2">
 
@@ -23,7 +23,7 @@
 
             <button class="btn btn-success" type="submit">Save Edits</button>
         </form>
-        <a href="/users" class="btn btn-primary mt-4">Back to Users</a>
+        <a href="/users/{{user.id}}" class="btn btn-outline-danger mt-4">Cancel</a>
     </div>
 </div>
 
