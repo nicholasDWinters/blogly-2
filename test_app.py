@@ -159,7 +159,7 @@ class PostViewsTestCase(TestCase):
             self.assertIn('<h5 class="mt-3">second post content</h5>', html)
             self.assertNotIn('<h5 class="mt-3">Test post content</h5>', html)
 
-    def test_delete_user(self):
+    def test_delete_post(self):
         '''tests delete post route, post should no longer be displayed in html'''
         with app.test_client() as client:
             
