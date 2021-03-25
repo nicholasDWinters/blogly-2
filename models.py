@@ -24,6 +24,7 @@ class User(db.Model):
     # default image taken from unsplash.com
     image_url = db.Column(db.String(500), nullable = False, default = 'https://images.unsplash.com/photo-1503164412421-0512323df4e7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')
 
+    posts = db.relationship("Post", backref="user", cascade="all, delete-orphan")
 
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
@@ -39,4 +40,4 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    user = db.relationship('User', backref='posts')
+    # user = db.relationship('User', backref='posts')

@@ -11,3 +11,23 @@ hr {
     background-color: rgb(121, 91, 255);
     
 }
+
+.success {
+    height: 50px;
+    width: 50%;
+    background-color: rgba(72, 255, 72, 0.5);
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 0 10px 20px;
+   
+}
+
+.error {
+    height: 50px;
+    width: 50%;
+    background-color: rgb(240, 128, 128, 0.5);
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 0 10px 20px;
+    
+}

@@ -48,6 +48,7 @@ def add_user():
     user = User(first_name=first_name.capitalize(), last_name=last_name.capitalize(), image_url=image_url)
     db.session.add(user)
     db.session.commit()
+    flash('Created new user!', 'success')
     return redirect('/users')
 
 @app.route('/users/<int:user_id>')
@@ -79,14 +80,21 @@ def edit_user(user_id):
 
     db.session.add(user)
     db.session.commit()
+    flash('Edited user!', 'success')
     return redirect('/users')
 
 @app.route('/users/<int:user_id>/delete', methods=['POST'])
 def delete_user(user_id):
     '''route to delete specified user from db'''
-    User.query.filter_by(id = user_id).delete()
-    db.session.commit()
-    return redirect('/users')
+    try:
+        User.query.filter_by(id = user_id).delete()
+        db.session.commit()
+        flash('Deleted user!', 'error')
+        return redirect('/users')
+    except:
+        flash('Unable to delete user!', 'error')
+        return redirect('/users')
+
 
 @app.route('/users/<int:user_id>/posts/new')
 def add_post(user_id):
@@ -104,7 +112,7 @@ def create_post(user_id):
     post = Post(title=title, content=content, user_id=user_id)
     db.session.add(post)
     db.session.commit()
-
+    flash('Created new post!', 'success')
     return redirect(url_for('.show_user', user_id = user_id))
 
 @app.route('/posts/<int:post_id>')
@@ -133,6 +141,7 @@ def save_edits(post_id):
     
     db.session.add(post)
     db.session.commit()
+    flash('Edited post!', 'success')
     return redirect(url_for('.show_post', post_id=post_id))
 
 @app.route('/posts/<int:post_id>/delete', methods=['POST'])
@@ -143,4 +152,5 @@ def delete_post(post_id):
     Post.query.filter_by(id = post_id).delete()
 
     db.session.commit()
+    flash('Deleted post!', 'error')
     return redirect(url_for('.show_user', user_id = user_id))
