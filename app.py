@@ -99,3 +99,41 @@ def create_post(user_id):
     db.session.commit()
 
     return redirect(url_for('.show_user', user_id = user_id))
+
+@app.route('/posts/<int:post_id>')
+def show_post(post_id):
+    '''render post show page'''
+    post = Post.query.get_or_404(post_id)
+    user = User.query.get_or_404(post.user_id)
+    
+    return render_template('showPost.html', post=post, user=user)
+
+@app.route('/posts/<int:post_id>/edit')
+def edit_post(post_id):
+    '''render the post edit form'''
+    post = Post.query.get_or_404(post_id)
+    user = User.query.get_or_404(post.user_id)
+    
+    return render_template('editPost.html', post = post, user = user)
+
+
+@app.route('/posts/<int:post_id>/edit', methods=['POST'])
+def save_edits(post_id):
+    '''post route for editing post information, saves to db'''
+    post = Post.query.get_or_404(post_id)
+    post.title = request.form['title']
+    post.content = request.form['content']
+    
+    db.session.add(post)
+    db.session.commit()
+    return redirect(url_for('.show_post', post_id=post_id))
+
+@app.route('/posts/<int:post_id>/delete', methods=['POST'])
+def delete_post(post_id):
+    '''route to delete specified post from db'''
+    post = Post.query.get_or_404(post_id)
+    user_id = post.user_id
+    Post.query.filter_by(id = post_id).delete()
+
+    db.session.commit()
+    return redirect(url_for('.show_user', user_id = user_id))

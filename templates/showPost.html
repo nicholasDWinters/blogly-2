@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+
+{%block title%} Post Details {% endblock %}
+
+{%block content%}
+<div class="row">
+
+    <div class="col-7 d-grid gap-2">
+        <h1 class="mt-5">{{post.title}}</h1>
+        <h5 class="mt-5">{{post.content}}</h5>
+        <p class="mt-5"><i>By {{user.full_name()}}</i></p>
+
+        <a class="btn btn-secondary mt-2" href="/posts/{{post.id}}/edit">Edit Post</a>
+        <form class="d-grid gap-2" action="/posts/{{post.id}}/delete" method="POST">
+            <button class="btn btn-danger mt-2">Delete Post</button>
+        </form>
+        <a href="/users/{{user.id}}" class="btn btn-outline-danger mt-2">Back to {{user.full_name()}}</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-4">
+
+        <a href="/users" class="btn btn-primary mt-5">Back to All Users</a>
+    </div>
+</div>
+{% endblock %}
