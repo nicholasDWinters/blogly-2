@@ -6,3 +6,8 @@
 .noDecoration {
     text-decoration: none;
 }
+
+hr {
+    background-color: rgb(121, 91, 255);
+    
+}

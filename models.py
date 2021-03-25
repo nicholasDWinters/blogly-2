@@ -37,6 +37,6 @@ class Post(db.Model):
     content = db.Column(db.String(1000), nullable = False)
     created_at = db.Column(db.DateTime, default = datetime.now())
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship('User', backref='posts')

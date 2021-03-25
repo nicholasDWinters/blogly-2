@@ -1,6 +1,6 @@
 {%extends 'base.html'%}
 
-{%block title%} Home Page {% endblock %}
+{%block title%} Users Page {% endblock %}
 
 {%block content%}
 <h2 class="mt-5">Users</h2>
@@ -12,7 +12,11 @@
 <div class="row">
     <div class="col-4 d-grid gap-2">
 
-        <a class="btn btn-primary mt-3" href="/users/new">Create User</a>
+        <a class="btn btn-success mt-3" href="/users/new">Create User</a>
+
+
+        <a href="/" class="btn btn-primary mt-3">Back to Home</a>
+
     </div>
 </div>
 {% endblock %}
