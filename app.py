@@ -1,7 +1,7 @@
 """Blogly application."""
 
-from flask import Flask, request, request, render_template, flash, session, redirect
-from models import db, connect_db, User
+from flask import Flask, request, request, render_template, flash, session, redirect, url_for
+from models import db, connect_db, User, Post
 from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
@@ -13,7 +13,7 @@ app.config['SECRET_KEY'] = 'oh-so-secret'
 debug = DebugToolbarExtension(app)
 
 connect_db(app)
-
+db.create_all()
 
 
 @app.route('/')
@@ -22,15 +22,18 @@ def home_page():
 
 @app.route('/users')
 def users_page():
+    '''displays all users'''
     users = User.query.all()
     return render_template('index.html', users=users)
 
 @app.route('/users/new')
 def create_user():
+    '''display create a new user form'''
     return render_template('create.html')
 
 @app.route('/users/new', methods=['POST'])
 def add_user():
+    '''post route to create new user'''
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     image_url = request.form['image_url']
@@ -43,17 +46,19 @@ def add_user():
 
 @app.route('/users/<int:user_id>')
 def show_user(user_id):
+    '''display name and image for specified user'''
     user = User.query.get_or_404(user_id)
     return render_template('show.html', user=user)
 
 @app.route('/users/<int:user_id>/edit')
 def show_edit(user_id):
+    '''display edit form for editing the specified user's information'''
     user = User.query.get_or_404(user_id)
     return render_template('edit.html', user=user)
 
 @app.route('/users/<int:user_id>/edit', methods=['POST'])
 def edit_user(user_id):
-
+    '''post route for editing user information, saves to db'''
     user = User.query.get_or_404(user_id)
     user.first_name = request.form['first_name']
     user.last_name = request.form['last_name']
@@ -71,6 +76,26 @@ def edit_user(user_id):
 
 @app.route('/users/<int:user_id>/delete', methods=['POST'])
 def delete_user(user_id):
+    '''route to delete specified user from db'''
     User.query.filter_by(id = user_id).delete()
     db.session.commit()
     return redirect('/users')
+
+@app.route('/users/<int:user_id>/posts/new')
+def add_post(user_id):
+    '''show form to add a post'''
+    user = User.query.get_or_404(user_id)
+    return render_template('postForm.html', user = user)
+
+
+@app.route('/users/<int:user_id>/posts/new', methods=['POST'])
+def create_post(user_id):
+    '''save post to database'''
+    title = request.form['title']
+    content = request.form['content']
+    
+    post = Post(title=title, content=content, user_id=user_id)
+    db.session.add(post)
+    db.session.commit()
+
+    return redirect(url_for('.show_user', user_id = user_id))

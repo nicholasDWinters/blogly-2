@@ -39,6 +39,7 @@ class UserViewsTestCase(TestCase):
         db.session.rollback()
 
     def test_list_users(self):
+        '''tests users routes to make sure users are displayed correctly in the list'''
         with app.test_client() as client:
             resp = client.get("/users")
             html = resp.get_data(as_text=True)
@@ -47,6 +48,7 @@ class UserViewsTestCase(TestCase):
             self.assertIn('Nick Winters', html)
 
     def test_show_user(self):
+        '''tests show route, should display specified user information'''
         with app.test_client() as client:
             resp = client.get(f"/users/{self.user_id}")
             html = resp.get_data(as_text=True)
@@ -58,6 +60,7 @@ class UserViewsTestCase(TestCase):
             
 
     def test_add_user(self):
+        '''tests add user route to make sure correct info is displayed and user is added to database'''
         with app.test_client() as client:
             # image url taken from unsplash.com
             data = {"first_name": "John", 'last_name': 'Winters', 'image_url':'https://images.unsplash.com/photo-1616171812687-1028c744649d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'}
@@ -67,6 +70,7 @@ class UserViewsTestCase(TestCase):
             self.assertIn('<li><a href="/users/2">John Winters</a></li>', html)
 
     def test_edit_user(self):
+        '''tests edit route, should allow a user to be edited and saved to database'''
         with app.test_client() as client:
             # image taken from unsplash.com
             data = {"first_name": "John", 'last_name': 'Winters', 'image_url':'https://images.unsplash.com/photo-1616171812687-1028c744649d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'}
@@ -81,7 +85,8 @@ class UserViewsTestCase(TestCase):
             
 
     def test_delete_user(self):
-           with app.test_client() as client:
+        '''tests delete post route, user should no longer be displayed in html'''
+        with app.test_client() as client:
             # image url taken from unsplash.com
             data = {"first_name": "John", 'last_name': 'Winters', 'image_url':'https://images.unsplash.com/photo-1616171812687-1028c744649d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'}
             resp = client.post(f"/users/{self.user_id}/delete", data=data, follow_redirects=True)

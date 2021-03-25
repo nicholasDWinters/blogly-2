@@ -9,16 +9,17 @@
     </div>
     <div class="col-4 d-grid gap-2">
         <h2 class="mt-5">{{user.full_name()}}</h2>
-        <a class="btn btn-secondary mt-2" href="/users/{{user.id}}/edit">Edit</a>
+        <a class="btn btn-secondary mt-2" href="/users/{{user.id}}/edit">Edit User</a>
         <form class="d-grid gap-2" action="/users/{{user.id}}/delete" method="POST">
-            <button class="btn btn-danger mt-2">Delete</button>
+            <button class="btn btn-danger mt-2">Delete User</button>
         </form>
+        <a href="/users/{{user.id}}/posts/new" class="btn btn-success mt-2">Add Post</a>
     </div>
 </div>
 <div class="row">
     <div class="col-4">
 
-        <a href="/users" class="btn btn-primary mt-5">Back to Users</a>
+        <a href="/users" class="btn btn-primary mt-5">Back to All Users</a>
     </div>
 </div>
 {% endblock %}
