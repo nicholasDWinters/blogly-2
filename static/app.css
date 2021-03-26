@@ -35,3 +35,7 @@ hr {
 .pill {
     padding: 10px;
 }
+
+#tagHeading {
+    display: inline;
+}
