@@ -11,7 +11,10 @@
             <h4 class="mt-3">{{post.title}}</h4>
             <h6>{{post.content}}</h6>
             <p> <i>Post by {{post.user.full_name()}} on {{post.created_at}}</i></p>
-
+            <h6>Tags</h6>
+            {%for tag in post.tags%}
+            <span class="badge bg-success pill">{{tag.name}}</span>
+            {%endfor%}
             <hr>
         </div>
     </div>

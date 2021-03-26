@@ -101,7 +101,8 @@ def delete_user(user_id):
 def add_post(user_id):
     '''show form to add a post'''
     user = User.query.get_or_404(user_id)
-    return render_template('postForm.html', user = user)
+    tags = Tag.query.all()
+    return render_template('postForm.html', user = user, tags = tags)
 
 
 @app.route('/users/<int:user_id>/posts/new', methods=['POST'])
@@ -110,8 +111,14 @@ def create_post(user_id):
     user = User.query.get_or_404(user_id)
     title = request.form['title']
     content = request.form['content']
+    tags = request.form.getlist('tag')
     
     post = Post(title=title, content=content, user = user)
+
+    for tag in tags:
+        tagObj = Tag.query.filter_by(name=tag).all()
+        post.tags.append(tagObj[0])
+
     db.session.add(post)
     db.session.commit()
     flash('Created new post!', 'success')
@@ -130,8 +137,9 @@ def edit_post(post_id):
     '''render the post edit form'''
     post = Post.query.get_or_404(post_id)
     user = User.query.get_or_404(post.user_id)
-    
-    return render_template('editPost.html', post = post, user = user)
+    tags = Tag.query.all()
+
+    return render_template('editPost.html', post = post, user = user, tags = tags)
 
 
 @app.route('/posts/<int:post_id>/edit', methods=['POST'])
@@ -140,7 +148,12 @@ def save_edits(post_id):
     post = Post.query.get_or_404(post_id)
     post.title = request.form['title']
     post.content = request.form['content']
-    
+    tags = request.form.getlist('tag')
+    post.tags = []
+    for tag in tags:
+        tagObj = Tag.query.filter_by(name=tag).all()
+        post.tags.append(tagObj[0])
+
     db.session.add(post)
     db.session.commit()
     flash('Edited post!', 'success')
@@ -149,13 +162,16 @@ def save_edits(post_id):
 @app.route('/posts/<int:post_id>/delete', methods=['POST'])
 def delete_post(post_id):
     '''route to delete specified post from db'''
-    post = Post.query.get_or_404(post_id)
-    user_id = post.user_id
-    Post.query.filter_by(id = post_id).delete()
-
-    db.session.commit()
-    flash('Deleted post!', 'error')
-    return redirect(url_for('.show_user', user_id = user_id))
+    try:
+        post = Post.query.get_or_404(post_id)
+        db.session.delete(post)
+        db.session.commit()
+        flash('Successfully deleted post!', 'success')
+        return redirect('/')
+    except:
+        flash('Unable to delete post!', 'error')
+        return redirect(url_for('.show_post', post_id=post_id))
+    
 
 
 @app.route('/tags')
