@@ -87,7 +87,8 @@ def edit_user(user_id):
 def delete_user(user_id):
     '''route to delete specified user from db'''
     try:
-        User.query.filter_by(id = user_id).delete()
+        user = User.query.get_or_404(user_id)
+        db.session.delete(user)
         db.session.commit()
         flash('Deleted user!', 'error')
         return redirect('/users')
@@ -106,10 +107,11 @@ def add_post(user_id):
 @app.route('/users/<int:user_id>/posts/new', methods=['POST'])
 def create_post(user_id):
     '''save post to database'''
+    user = User.query.get_or_404(user_id)
     title = request.form['title']
     content = request.form['content']
     
-    post = Post(title=title, content=content, user_id=user_id)
+    post = Post(title=title, content=content, user = user)
     db.session.add(post)
     db.session.commit()
     flash('Created new post!', 'success')
@@ -168,3 +170,60 @@ def show_tag(tag_id):
     tag = Tag.query.get_or_404(tag_id)
 
     return render_template('showTag.html', tag = tag)
+
+@app.route('/tags/new')
+def add_tag():
+    '''show form to add a tag'''
+    return render_template('tagForm.html')
+
+@app.route('/tags/new', methods=['POST'])
+def create_tag():
+    '''create new tag and save to database'''
+    name = request.form['tag_name'] 
+
+    try:
+        tag = Tag(name = name)
+        db.session.add(tag)
+        db.session.commit()
+        flash('Created new tag!', 'success')
+        return redirect('/tags')
+    except:
+        flash('Unable to add tag!', 'error')
+        return redirect('/tags')
+
+@app.route('/tags/<int:tag_id>/edit')
+def edit_tag(tag_id):
+    '''show edit form for specified tag'''
+    tag = Tag.query.get_or_404(tag_id)
+
+    return render_template('editTag.html', tag = tag)
+
+
+@app.route('/tags/<int:tag_id>/edit', methods=['POST'])
+def save_tag_edits(tag_id):
+    '''save the edited tag to database'''
+    tag = Tag.query.get_or_404(tag_id)
+    tag.name = request.form['tag_name']
+    try:
+        db.session.add(tag)
+        db.session.commit()
+        flash('Edited tag!', 'success')
+        return redirect('/tags')
+    except:
+        db.session.rollback()
+        flash('Unable to edit tag!', 'error')
+        return redirect('/tags')
+
+@app.route('/tags/<int:tag_id>/delete', methods=['POST'])
+def delete_tag(tag_id):
+    '''delete tag from database'''
+    try:
+        tag = Tag.query.get_or_404(tag_id)
+        db.session.delete(tag)
+        db.session.commit()
+        flash('Successfully deleted tag!', 'success')
+        return redirect('/tags')
+    except:
+        flash('Unable to delete tag!', 'error')
+        return redirect('/tags')
+    

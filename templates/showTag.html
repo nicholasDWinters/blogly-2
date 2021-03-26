@@ -8,12 +8,15 @@
     <div class="col-4 d-grid gap-2">
         <h1 class="mt-5">{{tag.name}}</h1>
         {%for post in tag.posts%}
-        <a href="/posts/{{post.id}}">{{post.title}}</a>
+        <ul>
+            <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
+        </ul>
+        {%endfor%}
         <a class="btn btn-secondary mt-5" href="/tags/{{tag.id}}/edit">Edit Tag</a>
         <form action="/tags/{{tag.id}}/delete" method="post" class="d-grid gap-2">
             <button class="btn btn-danger mt-2">Delete Tag</button>
         </form>
-        {%endfor%}
+
         <a href="/tags" class="btn btn-outline-danger mt-2">Back to All Tags</a>
     </div>
 </div>

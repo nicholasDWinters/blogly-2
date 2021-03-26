@@ -1,0 +1,23 @@
+{%extends 'base.html'%}
+
+{%block title%} Edit Tag {% endblock %}
+
+{%block content%}
+<h2 class="mt-5">Edit {{tag.name}}</h2>
+<div class="row mt-3">
+    <div class="col-4 d-grid gap-2">
+
+        <form class="d-grid gap-2" action="/tags/{{tag.id}}/edit" method="post">
+            <div class="mb-3">
+                <label class="form-label" for="tag_name">Name</label>
+                <input class="form-control" type="text" name="tag_name" id="tag_name" value="{{tag.name}}">
+            </div>
+
+            <button class="btn btn-success mt-3" type="submit">Edit Tag</button>
+        </form>
+        <a href="/tags" class="btn btn-outline-danger mt-3">Cancel</a>
+    </div>
+</div>
+
+
+{% endblock %}

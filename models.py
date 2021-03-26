@@ -13,6 +13,7 @@ def connect_db(app):
 """Models for Blogly."""
 
 class User(db.Model):
+    '''user on site'''
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement = True)
@@ -31,6 +32,7 @@ class User(db.Model):
 
 
 class Post(db.Model):
+    '''site post'''
     __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement = True)
@@ -40,20 +42,24 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    # user = db.relationship('User', backref='posts')
+   
 
     
 
 class Tag(db.Model):
+    '''tag, description of a post'''
     __tablename__ = 'tags'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable = False, unique = True)
 
-    posts = db.relationship('Post', secondary='post_tags', backref='tags')
+    posts = db.relationship('Post', secondary='post_tags', cascade='all, delete', backref='tags')
+
+
 
 
 class PostTag(db.Model):
+    '''tags on a post'''
     __tablename__ = 'post_tags'
 
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
